@@ -1,0 +1,52 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PA Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 p-6">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">PA Dashboard</h1>
+
+        <!-- Filters -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <input id="filter-status" class="px-4 py-2 border rounded" placeholder="Status">
+            <input id="filter-drug" class="px-4 py-2 border rounded" placeholder="Drug">
+            <div class="flex space-x-2">
+                <button id="btn-apply" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Apply
+                    Filters</button>
+                <button id="btn-csv" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Download
+                    CSV</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div id="stats" class="mb-6 text-lg"></div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow rounded">
+                <thead class="bg-gray-200 text-left">
+                    <tr>
+                        <th class="px-4 py-2">PA ID</th>
+                        <th class="px-4 py-2">Patient</th>
+                        <th class="px-4 py-2">DOB</th>
+                        <th class="px-4 py-2">Drug</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y"></tbody>
+            </table>
+        </div>
+
+        <script>
+            window.API_BASE = '<%= apiBase %>';
+        </script>
+        <script src="/js/dashboard.js"></script>
+    </div>
+</body>
+
+</html>
