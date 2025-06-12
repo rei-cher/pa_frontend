@@ -9,9 +9,9 @@ services:
       - "3000:3000"
     environment:
       - API_BASE=http://127.0.0.1:5000
-    networks:
-      - pa-net
+    # networks:
+    #   - pa-net
 
-networks:
-  pa-net:
-    external: true
+# networks:
+#   pa-net:
+#     external: true

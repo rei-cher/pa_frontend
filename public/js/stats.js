@@ -1,6 +1,8 @@
 async function populateDropdowns() {
     const res = await fetch(`${API_BASE}/api/select/`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}'
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: '{}'
     });
     const all = await res.json();
     const uniq = (arr, k) => [...new Set(arr.map(x => x[k]))].filter(v => v);
@@ -33,7 +35,8 @@ function buildFilters() {
 let chart = null;
 async function drawChart() {
     const res = await fetch(`${API_BASE}/api/stats/`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(buildFilters())
     });
     const data = await res.json();
