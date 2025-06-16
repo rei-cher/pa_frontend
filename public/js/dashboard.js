@@ -39,9 +39,12 @@ function renderStats(pas) {
     {}
   );
 
-  const html = Object.entries(counts)
-    .map(([status, count]) => {
-      // determine color class
+// Count PAs submitted today
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const todayCount = pas.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
+
+  const html = [
+    ...Object.entries(counts).map(([status, count]) => {
       let colorClass;
       switch (status.toLowerCase()) {
         case "approved":
@@ -58,8 +61,11 @@ function renderStats(pas) {
           ${status}: <span class="font-bold">${count}</span>
         </span>
       `;
-    })
-    .join("");
+    }),
+    `<span class="mr-6 font-medium text-blue-500">
+      PA Submitted Today: <span class="font-bold">${todayCount}</span>
+    </span>`
+  ].join("");
 
   document.getElementById("stats").innerHTML = html;
 }
@@ -166,6 +172,7 @@ async function loadAndRender() {
 
 function applyFilters() {
 	const searchVal = document.getElementById("filter-search").value.trim();
+	console.log(document.getElementById("filter-search"));
 	const filters = {};
 
 	if (searchVal) {
@@ -194,6 +201,8 @@ document.getElementById("filter-search").addEventListener("input", () => {
 	if (isValidDate(val)) {
 		currentFilters.patient_dob = toISO(val);
 		delete currentFilters.name_search;
+	} else if (/^B[A-Z0-9]{7}$/.test(val)) {
+		currentFilters.pa_id = val || undefined;
 	} else {
 		currentFilters.name_search = val || undefined;
 		delete currentFilters.patient_dob;
