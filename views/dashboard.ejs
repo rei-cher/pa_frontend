@@ -6,37 +6,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 p-6">
+<body class="bg-gray-800 p-6">
     <div class="max-w-6xl mx-auto">
         <!-- Info-modal backdrop & container (hidden by default) -->
         <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
+            <div class="bg-gray-200 rounded-lg shadow-lg w-1/3 p-6">
                 <h2 class="text-xl font-bold mb-4">
                     Edit Extra Info for PA <span id="modal-pa-id" class="font-mono"></span>
                 </h2>
-                <textarea
-                    id="modal-extra-info"
-                    class="w-full h-32 p-2 border rounded"
+                <textarea id="modal-extra-info" class="w-full h-32 p-2 border rounded"
                     placeholder="Enter any notes or extra info…">
                 </textarea>
                 <div class="mt-4 flex justify-end space-x-2">
-                <button id="modal-cancel" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-                    Cancel
-                </button>
-                <button id="modal-save" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Save
-                </button>
+                    <button id="modal-cancel" class="text-white px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                        Cancel
+                    </button>
+                    <button id="modal-save" class="text-white px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Save
+                    </button>
                 </div>
             </div>
         </div>
 
-        <h1 class="text-3xl font-bold mb-6">PA Dashboard</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl text-white font-bold">PA Dashboard</h1>
+            <a href="/stats" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Statistics</a>
+        </div>
 
         <!-- Filters -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <!-- <input id="filter-name" class="px-4 py-2 border rounded" placeholder="Patient Name"> -->
             <!-- <input id="filter-dob"  type="date" class="px-4 py-2 border rounded"> -->
-            <input id="filter-search" class="px-4 py-2 border rounded" placeholder="Search by Name or DOB"> 
+            <input id="filter-search" class="px-4 py-2 border rounded" placeholder="Search by Name or DOB">
             <input id="filter-status" class="px-4 py-2 border rounded" placeholder="Status">
             <input id="filter-drug" class="px-4 py-2 border rounded" placeholder="Drug">
             <div class="flex space-x-2">
@@ -59,18 +60,18 @@
 
         <!-- Table -->
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow rounded">
-                <thead class="bg-gray-200 text-left">
+            <table class="min-w-full bg-gray-400 shadow rounded-2xl">
+                <thead class="bg-gray-500 text-left">
                     <tr>
-                        <th class="px-4 py-2">PA ID</th>
-                        <th class="px-4 py-2">Patient</th>
-                        <th class="px-4 py-2">DOB</th>
-                        <th class="px-4 py-2">Drug</th>
-                        <th class="px-4 py-2">Submitted At</th>
-                        <th class="px-4 py-2">EMA ID</th>
-                        <th class="px-4 py-2">Insurance</th>
-                        <th class="px-4 py-2">Status</th>
-                        <th class="px-4 py-2">Actions</th>
+                        <th class="text-white px-4 md:px-2 py-2">PA ID</th>
+                        <th class="text-white px-4 md:px-2 py-2">Patient</th>
+                        <th class="text-white px-4 md:px-2 py-2">DOB</th>
+                        <th class="text-white px-4 md:px-2 py-2">Drug</th>
+                        <th class="text-white px-4 md:px-2 py-2">Submitted At</th>
+                        <th class="text-white px-4 md:px-2 py-2">EMA ID</th>
+                        <th class="text-white px-4 md:px-2 py-2">Insurance</th>
+                        <th class="text-white px-4 md:px-2 py-2">Status</th>
+                        <th class="text-white px-4 md:px-2 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="divide-y"></tbody>
