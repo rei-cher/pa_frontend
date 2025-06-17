@@ -264,16 +264,31 @@ document.getElementById("btn-csv").addEventListener("click", () => {
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(currentFilters),
 	})
-		.then((r) => r.blob())
-		.then((blob) => {
+		.then((response) => {
+			const disposition = response.headers.get("Content-Disposition");
+			let filename = "filtered_pas.csv"; // default fallback
+
+			if (disposition && disposition.includes("filename=")) {
+				const match = disposition.match(/filename="?([^"]+)"?/);
+				if (match && match[1]) {
+					filename = match[1];
+				}
+			}
+
+			return response.blob().then((blob) => ({ blob, filename }));
+		})
+		.then(({ blob, filename }) => {
 			const url = URL.createObjectURL(blob);
 			const a = document.createElement("a");
 			a.href = url;
-			a.download = "filtered_pas.csv";
+			a.download = filename;
 			document.body.appendChild(a);
 			a.click();
 			a.remove();
 			URL.revokeObjectURL(url);
+		})
+		.catch((error) => {
+			console.error("CSV download failed:", error);
 		});
 });
 
