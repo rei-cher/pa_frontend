@@ -58,19 +58,15 @@ function renderStats(pas) {
 		`;
 	}).join("");
 
-	document.getElementById("stats").innerHTML = html;
+	document.getElementById("status-counts").innerHTML = html;
 }
+
 
 function renderTodayCount(allPAs) {
 	const today = new Date().toISOString().slice(0, 10);
 	const todayCount = allPAs.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
 
-	const existingStats = document.getElementById("stats").innerHTML;
-	document.getElementById("stats").innerHTML = existingStats + `
-		<span class="mr-6 font-medium text-blue-500">
-			PA Submitted Today: <span class="font-bold">${todayCount}</span>
-		</span>
-	`;
+	document.getElementById("today-count-number").textContent = todayCount;
 }
 
 
@@ -199,12 +195,13 @@ function renderTable(pas) {
 }
 
 async function loadAndRender() {
-	const pas = await fetchPAs(currentFilters);
-	renderStats(pas);
+	const [filteredPAs, allPAs] = await Promise.all([
+		fetchPAs(currentFilters),
+		fetchPAs() // unfiltered
+	]);
 
-	// Fetch unfiltered data for today count
-	const allPAs = await fetchPAs(); // no filters
-	renderTable(pas);
+	renderStats(filteredPAs);
+	renderTable(filteredPAs);
 	renderTodayCount(allPAs);
 }
 
