@@ -34,40 +34,40 @@ async function fetchPAs(filters = {}) {
 }
 
 function renderStats(pas) {
-  const counts = pas.reduce(
-    (acc, p) => ((acc[p.pa_status] = (acc[p.pa_status] || 0) + 1), acc),
-    {}
-  );
+	const counts = pas.reduce(
+		(acc, p) => ((acc[p.pa_status] = (acc[p.pa_status] || 0) + 1), acc),
+		{}
+	);
 
-// Count PAs submitted today
-  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-  const todayCount = pas.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
+	// Count PAs submitted today
+	const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+	const todayCount = pas.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
 
-  const html = [
-    ...Object.entries(counts).map(([status, count]) => {
-      let colorClass;
-      switch (status.toLowerCase()) {
-        case "approved":
-          colorClass = "text-green-400";
-          break;
-        case "denied":
-          colorClass = "text-red-400";
-          break;
-        default:
-          colorClass = "text-white";
-      }
-      return `
+	const html = [
+		...Object.entries(counts).map(([status, count]) => {
+			let colorClass;
+			switch (status.toLowerCase()) {
+				case "approved":
+					colorClass = "text-green-400";
+					break;
+				case "denied":
+					colorClass = "text-red-400";
+					break;
+				default:
+					colorClass = "text-white";
+			}
+			return `
         <span class="mr-6 font-medium ${colorClass}">
           ${status}: <span class="font-bold">${count}</span>
         </span>
       `;
-    }),
-    `<span class="mr-6 font-medium text-blue-500">
+		}),
+		`<span class="mr-6 font-medium text-blue-500">
       PA Submitted Today: <span class="font-bold">${todayCount}</span>
     </span>`
-  ].join("");
+	].join("");
 
-  document.getElementById("stats").innerHTML = html;
+	document.getElementById("stats").innerHTML = html;
 }
 
 
@@ -133,8 +133,25 @@ function renderTable(pas) {
 		</button>
 	  </td>
     `;
-
-		tbody.appendChild(tr);
+		// Add textarea for denied PAs
+		if (pa.pa_status.toLowerCase() === "denied") {
+			const extraInfoTd = document.createElement("td");
+			extraInfoTd.className = "px-4 md:px-2 py-2 bg-red-500";
+			extraInfoTd.colSpan = 9; // Span across all columns
+			extraInfoTd.innerHTML = `
+					<textarea
+						class="extra-info-select border px-2 py-1 rounded w-full"
+						data-id="${pa.pa_id}"
+						placeholder="Additional comments for denied PA"
+					>${pa.extra_info || ""}</textarea>
+				`;
+			const extraInfoTr = document.createElement("tr");
+			extraInfoTr.appendChild(extraInfoTd);
+			tbody.appendChild(tr);
+			tbody.appendChild(extraInfoTr);
+		} else {
+			tbody.appendChild(tr);
+		}
 	});
 
 	// Attach event listeners
@@ -147,6 +164,20 @@ function renderTable(pas) {
 					pa_id: e.target.dataset.id,
 					status: e.target.value,
 				}),
+			});
+			loadAndRender();
+		});
+	});
+
+	// Attach event listeners for textarea updates
+	document.querySelectorAll(".extra-info-select").forEach((textarea) => {
+		textarea.addEventListener("change", async (e) => {
+			const pa_id = e.target.dataset.id;
+			const extra_info = e.target.value;
+			await fetch(API.update, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ pa_id, extra_info }),
 			});
 			loadAndRender();
 		});
