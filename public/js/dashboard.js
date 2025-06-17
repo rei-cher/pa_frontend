@@ -39,35 +39,38 @@ function renderStats(pas) {
 		{}
 	);
 
-	// Count PAs submitted today
-	const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-	const todayCount = pas.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
-
-	const html = [
-		...Object.entries(counts).map(([status, count]) => {
-			let colorClass;
-			switch (status.toLowerCase()) {
-				case "approved":
-					colorClass = "text-green-400";
-					break;
-				case "denied":
-					colorClass = "text-red-400";
-					break;
-				default:
-					colorClass = "text-white";
-			}
-			return `
-        <span class="mr-6 font-medium ${colorClass}">
-          ${status}: <span class="font-bold">${count}</span>
-        </span>
-      `;
-		}),
-		`<span class="mr-6 font-medium text-blue-500">
-      PA Submitted Today: <span class="font-bold">${todayCount}</span>
-    </span>`
-	].join("");
+	const html = Object.entries(counts).map(([status, count]) => {
+		let colorClass;
+		switch (status.toLowerCase()) {
+			case "approved":
+				colorClass = "text-green-400";
+				break;
+			case "denied":
+				colorClass = "text-red-400";
+				break;
+			default:
+				colorClass = "text-white";
+		}
+		return `
+			<span class="mr-6 font-medium ${colorClass}">
+				${status}: <span class="font-bold">${count}</span>
+			</span>
+		`;
+	}).join("");
 
 	document.getElementById("stats").innerHTML = html;
+}
+
+function renderTodayCount(allPAs) {
+	const today = new Date().toISOString().slice(0, 10);
+	const todayCount = allPAs.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
+
+	const existingStats = document.getElementById("stats").innerHTML;
+	document.getElementById("stats").innerHTML = existingStats + `
+		<span class="mr-6 font-medium text-blue-500">
+			PA Submitted Today: <span class="font-bold">${todayCount}</span>
+		</span>
+	`;
 }
 
 
@@ -198,7 +201,11 @@ function renderTable(pas) {
 async function loadAndRender() {
 	const pas = await fetchPAs(currentFilters);
 	renderStats(pas);
+
+	// Fetch unfiltered data for today count
+	const allPAs = await fetchPAs(); // no filters
 	renderTable(pas);
+	renderTodayCount(allPAs);
 }
 
 function applyFilters() {
