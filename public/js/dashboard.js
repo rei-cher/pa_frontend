@@ -66,7 +66,12 @@ function renderTodayCount(allPAs) {
 	const today = new Date().toISOString().slice(0, 10);
 	const todayCount = allPAs.filter(pa => pa.submitted_at.slice(0, 10) === today).length;
 
+	document.getElementById("today-count-text").textContent = "Submitted Today: "
 	document.getElementById("today-count-number").textContent = todayCount;
+}
+
+function renderAllPACount(allPAs){
+	document.getElementById("total-count").textContent = `Overall submitted: ${allPAs.length}`;
 }
 
 
@@ -200,7 +205,8 @@ async function loadAndRender() {
 		fetchPAs() // unfiltered
 	]);
 
-	renderStats(filteredPAs);
+	renderAllPACount(allPAs);
+	renderStats(allPAs);
 	renderTable(filteredPAs);
 	renderTodayCount(allPAs);
 }
