@@ -251,20 +251,34 @@ document.getElementById("filter-search").addEventListener("input", () => {
 	loadAndRender();
 });
 
-document.getElementById("filter-drug").addEventListener("keydown", () => {
+document.getElementById("filter-drug").addEventListener("input", () => {
 	currentFilters.drug =
 		document.getElementById("filter-drug").value || undefined;
 	loadAndRender();
 });
 
-document.getElementById("filter-status").addEventListener("keydown", () => {
+document.getElementById("filter-status").addEventListener("input", () => {
 	currentFilters.status =
 		document.getElementById("filter-status").value || undefined;
 	loadAndRender();
 });
 
+// clear filters
+document.getElementById("btn-clear-filter").addEventListener("click", () => {
+	document.getElementById("filter-search").value = "";
+	document.getElementById("filter-drug").value = "";
+	document.getElementById("filter-status").value = "";
+	currentFilters = {};
+	loadAndRender();
+});
+
 // CSV download
 document.getElementById("btn-csv").addEventListener("click", () => {
+	// calculate today 
+	const today = new Date();
+	today.setDate(today.getDate());
+	const submittedAt = today.toISOString().split("T")[0]; // "YYYY-MM-DD"
+
 	fetch(API.csv, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -272,7 +286,52 @@ document.getElementById("btn-csv").addEventListener("click", () => {
 	})
 		.then((response) => {
 			const disposition = response.headers.get("Content-Disposition");
-			let filename = "filtered_pas.csv"; // default fallback
+			let filename = `filtered_pas_${JSON.stringify(currentFilters)}_${submittedAt}.csv`; // default fallback
+
+			if (disposition && disposition.includes("filename=")) {
+				const match = disposition.match(/filename="?([^"]+)"?/);
+				if (match && match[1]) {
+					filename = match[1];
+				}
+			}
+
+			return response.blob().then((blob) => ({ blob, filename }));
+		})
+		.then(({ blob, filename }) => {
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+			URL.revokeObjectURL(url);
+		})
+		.catch((error) => {
+			console.error("CSV download failed:", error);
+		});
+});
+
+// download scv of pendings
+document.getElementById("btn-csv-pending").addEventListener("click", () => {
+	// Calculate the date 3 days ago in ISO format (e.g., "2025-06-22")
+	const threeDaysAgo = new Date();
+	threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+	const submittedAt = threeDaysAgo.toISOString().split("T")[0]; // "YYYY-MM-DD"
+
+	fetch(API.csv, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(
+			{
+				status: "Pending",
+				submitted_at_lth: submittedAt
+			}
+		),
+	})
+		.then((response) => {
+			const disposition = response.headers.get("Content-Disposition");
+			let filename = `pendings_up_to_${submittedAt}.csv`; // default fallback
 
 			if (disposition && disposition.includes("filename=")) {
 				const match = disposition.match(/filename="?([^"]+)"?/);
@@ -338,5 +397,5 @@ document.getElementById("modal-save").addEventListener("click", async () => {
 // Initial load
 loadAndRender();
 
-// Fetch PAs every 30 seconds
-setInterval(loadAndRender, 30 * 1000);
+// Fetch PAs every 60 seconds
+setInterval(loadAndRender, 60 * 1000);

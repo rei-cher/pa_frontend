@@ -30,6 +30,11 @@ app.get('/stats', (req, res) => {
     res.render('stats', { apiBase: app.locals.apiBase });
 });
 
+// prerequsites page
+app.get('/prerequisites', (req, res) => {
+    res.render('prerequisites', { apiBase: app.locals.apiBase });
+});
+
 app.listen(PORT, () => {
     console.log(`Front-end running on http://localhost:${PORT}`);
 });

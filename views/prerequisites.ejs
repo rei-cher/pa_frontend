@@ -1,0 +1,38 @@
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Drug prerequisited</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+
+    <body class="bg-gray-800 p-6">
+
+        <div class="max-w-6xl mx-auto">
+
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl text-white font-bold">Drug prerequisited</h1>
+                <a href="/stats" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Statistics</a>
+                <a href="/dashboard" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Dashboard</a>
+            </div>
+
+            <!-- search -->
+            <div class="gap-4 mb-6">
+                <input id="filter-drug" class="px-4 py-2 border rounded" placeholder="Search for the drug"/>
+            </div>
+
+            <!-- Output -->
+            <div id="result-approved-horizon" class="">
+
+            </div>
+        </div>
+
+        <script>
+            window.API_BASE = '<%= apiBase %>';
+        </script>
+        <script src="/js/prerequisites.js"></script>
+
+    </body>
+
+</html>
