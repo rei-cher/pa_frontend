@@ -1,8 +1,8 @@
 const API = {
-	select: `${API_BASE}/api/select/`,
-	update: `${API_BASE}/api/update/`,
-	delete: `${API_BASE}/api/delete/`,
-	csv: `${API_BASE}/api/csv/`,
+	select: `${API_BASE}/api/pa_info/select/`,
+	update: `${API_BASE}/api/pa_info/update/`,
+	delete: `${API_BASE}/api/pa_info/delete/`,
+	csv: `${API_BASE}/api/pa_info/csv/`,
 };
 
 let currentFilters = {};

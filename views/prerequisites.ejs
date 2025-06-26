@@ -13,18 +13,50 @@
 
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl text-white font-bold">Drug prerequisited</h1>
-                <a href="/stats" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Statistics</a>
-                <a href="/dashboard" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Dashboard</a>
+                <div class="flex gap-6">
+                    <a href="/stats" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Statistics</a>
+                    <a href="/dashboard" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Dashboard</a>
+                </div>
             </div>
 
             <!-- search -->
-            <div class="gap-4 mb-6">
-                <input id="filter-drug" class="px-4 py-2 border rounded" placeholder="Search for the drug"/>
+            <div class="flex justify-start gap-4">
+                <div class="gap-4 mb-6">
+                    <input id="filter-drug" class="px-4 py-2 border min-w-[300px] rounded" placeholder="Search for the drug"/>
+                </div>
+                <div class="gap-4 mb-6">
+                    <select id="filter-icd" class="px-4 py-2 border rounded">
+                        <option value="">Loading ICD codes...</option>
+                    </select>
+                </div>
+                <div class="gap-4 mb-6">
+                    <select id="filter-type" class="px-4 py-2 border rounded">
+                        <option value="">Loading Types...</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="md:col-span-3 flex justify-end">
+                <!-- Clear filters -->
+                <button id="btn-clear-filter" class="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+                    Clear filters
+                </button>
             </div>
 
             <!-- Output -->
-            <div id="result-approved-horizon" class="">
-
+            <div class="overflow-x-auto pt-6">
+                <table class="min-w-full bg-gray-400 shadow rounded-2xl">
+                    <thead class="bg-gray-500 text-center">
+                        <tr>
+                            <th class="text-white px-4 md:px-2 py-2">Medicaiton Name</th>
+                            <th class="text-white px-4 md:px-2 py-2">Prerequisites</th>
+                            <th class="text-white px-4 md:px-2 py-2">ICD 10</th>
+                            <th class="text-white px-4 md:px-2 py-2">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body-meds" class="divide-y"></tbody>
+                </table>
             </div>
         </div>
 

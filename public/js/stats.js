@@ -1,5 +1,5 @@
 async function populateDropdowns() {
-    const res = await fetch(`${API_BASE}/api/select/`, {
+    const res = await fetch(`${API_BASE}/api/pa_info/select/`, {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: '{}'
@@ -34,7 +34,7 @@ function buildFilters() {
 
 let chart = null;
 async function drawChart() {
-    const res = await fetch(`${API_BASE}/api/stats/`, {
+    const res = await fetch(`${API_BASE}/api/pa_info/stats/`, {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(buildFilters())

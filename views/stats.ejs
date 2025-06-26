@@ -8,11 +8,13 @@
 </head>
 
 <body class="bg-gray-50 p-6">
-    <div class="max-w-3xl mx-auto">
+    <div class="flex flex-col max-w-6xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold">PA Approval/Denial Statistics</h1>
-            <a href="/dashboard" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">Back to Dashboard</a>
-            <!-- <a href="/prerequisites" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Prerequisites</a> -->
+            <div class="flex gap-6">
+                <a href="/prerequisites" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Prerequisites</a>
+                <a href="/dashboard" class="text-white px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">View Dashboard</a>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -43,11 +45,14 @@
             </div>
         </div>
 
-        <button id="btn-refresh" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-6">Refresh
-            Chart</button>
-
-        <div class="bg-white p-4 shadow rounded">
-            <canvas id="statusChart"></canvas>
+        <div class="max-w-3xl justify-center items-center">
+            <button id="btn-refresh" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-6">
+                Refresh Chart
+            </button>
+    
+            <div class="bg-white p-4 shadow justify-center">
+                <canvas id="statusChart"></canvas>
+            </div>
         </div>
 
         <script>window.API_BASE = '<%= apiBase %>';</script>
