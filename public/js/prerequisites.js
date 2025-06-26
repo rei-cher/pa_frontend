@@ -85,7 +85,7 @@ function renderPrerequisitesTable(meds) {
 			if (field === "med_type") {
 				inputEl = document.createElement("select");
 				inputEl.className = "w-full px-2 py-1 rounded border text-black";
-				["Biological", "Non-biological"].forEach(opt => {
+				["Biologic", "Non-biologic"].forEach(opt => {
 					const optEl = document.createElement("option");
 					optEl.value = opt;
 					optEl.textContent = opt;
