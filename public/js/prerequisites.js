@@ -139,7 +139,6 @@ function renderPrerequisitesTable(meds) {
 					});
 
 					if (response.ok) {
-						alert(`${field} updated successfully.`);
 						meds[index][field] = newValue;
 						renderPrerequisitesTable(meds);
 					} else {

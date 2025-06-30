@@ -20,29 +20,29 @@
             </div>
 
             <!-- search -->
-            <div class="flex justify-start gap-4">
-                <div class="gap-4 mb-6">
+            <div class="flex justify-start gap-4 w-full">
+                <div class="mb-6">
                     <input id="filter-drug" class="px-4 py-2 border min-w-[300px] rounded" placeholder="Search for the drug"/>
                 </div>
-                <div class="gap-4 mb-6">
+                <div class="mb-6">
                     <select id="filter-icd" class="px-4 py-2 border rounded">
                         <option value="">Loading ICD codes...</option>
                     </select>
                 </div>
-                <div class="gap-4 mb-6">
+                <div class="mb-6">
                     <select id="filter-type" class="px-4 py-2 border rounded">
                         <option value="">Loading Types...</option>
                     </select>
                 </div>
+                <!-- Buttons -->
+                <div class="md:col-span-3">
+                    <!-- Clear filters -->
+                    <button id="btn-clear-filter" class="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+                        Clear filters
+                    </button>
+                </div>
             </div>
 
-            <!-- Buttons -->
-            <div class="md:col-span-3 flex justify-end">
-                <!-- Clear filters -->
-                <button id="btn-clear-filter" class="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
-                    Clear filters
-                </button>
-            </div>
 
             <!-- Output -->
             <div class="overflow-x-auto pt-6">

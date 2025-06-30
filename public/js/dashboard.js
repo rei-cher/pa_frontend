@@ -137,10 +137,16 @@ function renderTable(pas) {
 		</button>
 	  </td>
     `;
+	console.log(pa)
 		// Add textarea for denied PAs
-		if (pa.pa_status.toLowerCase() === "denied") {
+		if (pa.pa_status.toLowerCase() === "denied" || pa.extra_info) {
 			const extraInfoTd = document.createElement("td");
-			extraInfoTd.className = "px-4 md:px-2 py-2 bg-red-500";
+			if (pa.pa_status.toLowerCase() === "denied") {
+				extraInfoTd.className = "px-4 md:px-2 py-2 bg-red-500";
+			}
+			else {
+				extraInfoTd.className = "px-4 md:px-2 py-2 bg-yellow-500";
+			}
 			extraInfoTd.colSpan = 9; // Span across all columns
 			extraInfoTd.innerHTML = `
 					<textarea
